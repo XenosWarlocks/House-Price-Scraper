@@ -5,8 +5,8 @@ import csv
 
 class HousespiderSpider(scrapy.Spider):
     name = "houseSpider"
-    allowed_domains = ["www.rightmove.co.uk"]
-    start_urls = ["https://www.rightmove.co.uk/house-prices/southwark-85215.html?page=1"]
+    allowed_domains = [""]
+    start_urls = [""]
 
     def parse(self, response):
         script_content = response.xpath("//script[contains(text(),'window.__PRELOADED_STATE__')]//text()").get()[29:]
@@ -25,6 +25,6 @@ class HousespiderSpider(scrapy.Spider):
         current_page = int(response.url.split('=')[-1])
         if current_page < 40:
             next_page = current_page + 1
-            next_url = f"https://www.rightmove.co.uk/house-prices/southwark-85215.html?page={next_page}"
+            next_url = f"page={next_page}"
 
             yield response.follow(next_url, callback=self.parse)
